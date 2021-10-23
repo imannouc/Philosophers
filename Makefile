@@ -8,7 +8,8 @@ INCLUDE = philo.h
 
 SRC = main.c\
 	ft_atoi.c\
-	store_options.c
+	store_options.c\
+	routines.c
 
 OBJ = $(SRC:.c=.o)
 

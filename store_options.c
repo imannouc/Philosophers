@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static void    init_args(t_philo *arguments)
+static void    init_args(t_options *arguments)
 {
 	arguments->number_of_philosophers = -1;
 	arguments->time_to_die = -1;
@@ -9,7 +9,7 @@ static void    init_args(t_philo *arguments)
 	arguments->number_of_times_to_eat = -1;
 }
 
-static int check_args(int ac, t_philo *args)
+static int check_args(int ac, t_options *args)
 {
 	if (args->number_of_philosophers < 0 || args->time_to_die < 0
 		|| args->time_to_eat < 0 || args->time_to_sleep < 0)
@@ -19,7 +19,7 @@ static int check_args(int ac, t_philo *args)
 	return (0);
 }
 
-void print_options(t_philo *arg)
+void print_options(t_options *arg)
 {
 	printf("%d\n",arg->number_of_philosophers);
 	printf("%d\n",arg->time_to_die);
@@ -28,7 +28,7 @@ void print_options(t_philo *arg)
 	printf("%d\n",arg->number_of_times_to_eat);
 }
 
-int store_options(int ac, char **av, t_philo *arguments)
+int store_options(int ac, char **av, t_options *arguments)
 {
 	init_args(arguments);
 	arguments->number_of_philosophers = ft_atoi(av[1]);
