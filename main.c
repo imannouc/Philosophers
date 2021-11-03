@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 11:06:56 by imannouc          #+#    #+#             */
-/*   Updated: 2021/10/22 16:21:56 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/03 17:01:49 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,44 +18,40 @@ long int	current_time()
 	long int time_ms;
 
 	gettimeofday(&time, NULL);
-	time_ms = (time.tv_sec / 1000 + time.tv_usec * 1000);
+	time_ms = ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 	return (time_ms);
 }
 
-
-	//here I will start all threads for each philosopher.
-	//init mutexes.
-	// set values for fork status.
-	// set philo ids.
-int		start_simulation(t_philo *philosopher, t_fork *forks)
+int		start_simulation(t_options options)
 {
+	t_philo philo[options.n_philo];
+	t_fork forks[options.n_philo];
 	int i;
 
 	i = 0;
-	while (i < philosopher->options->number_of_philosophers)
+	options.fork = forks;
+	while (i < options.n_philo)
 	{
+		if (pthread_mutex_init(&forks[i].fork,NULL))
+			return (1);
 		forks[i].status = 0;
-		if (pthread_mutex_init(&forks[i].fork,NULL) != 0)
+		philo[i].philo_id = i + 1;
+		philo[i].last_time_eaten = 0;		
+		philo[i].op = &options;
+		i++;
+	}
+	i = 0;
+	while (i < options.n_philo)
+	{
+		if (pthread_create(&philo[i].philo,NULL,&routine,&philo[i]))
 			return (1);
+		usleep(100);
 		i++;
 	}
 	i = 0;
-	while (i < philosopher->options->number_of_philosophers)
+	while (i < options.n_philo)
 	{
-		philosopher[i].philo_id = i + 1;
-		i++;
-	}
-	i = 0;
-	while (i < philosopher->options->number_of_philosophers)
-	{
-		if (pthread_create(&philosopher[i].philo,NULL,&routine,&philosopher[i]) != 0)
-			return (1);
-		i++;
-	}
-	i = 0;
-	while (i < philosopher->options->number_of_philosophers)
-	{
-		if (pthread_join(philosopher[i].philo,NULL) != 0)
+		if (pthread_join(philo[i].philo,NULL))
 			return (1);
 		i++;
 	}
@@ -65,15 +61,11 @@ int		start_simulation(t_philo *philosopher, t_fork *forks)
 int main(int ac, char **av)
 {
 	t_options arguments;
-	t_philo *philosophers = NULL;
 
 	if ((ac == 5 || ac == 6) && !store_options(ac,av,&arguments))
 	{
-		arguments.forks = malloc(sizeof(t_fork) * arguments.number_of_philosophers);
-		philosophers = malloc(sizeof(t_philo) * arguments.number_of_philosophers);
-		philosophers->options = &arguments;
-		print_options(&arguments);
-		start_simulation(philosophers,arguments.forks);
+		// print_options(&arguments);
+		start_simulation(arguments);
 	}
 	else
 		printf("Provide correct arguments.");

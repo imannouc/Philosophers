@@ -2,31 +2,10 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
-
-typedef struct s_options
-{
-	int 		number_of_philosophers;
-	int 		time_to_die;
-	int 		time_to_eat;
-	int 		time_to_sleep;
-	int 		number_of_times_to_eat;
-	struct s_philo 	*philosophers;
-	struct s_fork *forks;
-	// int			last_time_eaten;
-//	t_philo // should be passed to thread function struct to store philo id + additional info threads,.. t_options.
-//	t_fork // struct to store mutexes and forks ids, 
-//	t_options // basic input , time stuff.
-}	t_options;
-
-typedef struct s_philo
-{
-	pthread_t 	philo;
-	t_options	*options;
-	int			philo_id;
-}	t_philo;
 
 typedef struct s_fork
 {
@@ -34,15 +13,42 @@ typedef struct s_fork
 	int	status;
 }	t_fork;
 
-//death
+typedef struct s_philo
+{
+	pthread_t 	philo;
+	int			philo_id;
+	long int	last_time_eaten;
+	struct s_options *op;
+}	t_philo;
+
+typedef struct s_options
+{
+	int 		n_philo;
+	int 		t_die;
+	int 		t_eat;
+	int 		t_sleep;
+	int 		n_times_eat;
+	long int	zero_time;
+	pthread_mutex_t log;
+	t_philo		*philo;
+	t_fork		*fork;
+}	t_options;
+
 int		ft_atoi(const char *str);
+
 int		store_options(int ac, char **av, t_options *arguments);
 void	print_options(t_options *arg);
+
+int		start_simulation(t_options options);
 void	*routine(void *data);
-int		start_simulation(t_philo *philospher, t_fork *forks);
+
 long int	current_time();
-void	*routine(void *data);
-void	status(int id, char *status);
+
 int		take_forks(t_philo *philo);
+int		eat(t_philo *philo);
+void	print(int id, char *s, t_philo *p);
+
+int		go_sleep(t_philo *philo);
+int		think(t_philo *philo);
 
 #endif
