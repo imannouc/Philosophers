@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 11:06:56 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/03 17:01:49 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/04 12:06:26 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		start_simulation(t_options options)
 			return (1);
 		forks[i].status = 0;
 		philo[i].philo_id = i + 1;
-		philo[i].last_time_eaten = 0;		
+		philo[i].times_ate = 0;
 		philo[i].op = &options;
 		i++;
 	}

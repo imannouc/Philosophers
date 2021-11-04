@@ -5,4 +5,4 @@ And Mutexes to protect each fork.
 
 int forks => mutex ;
 Start a simulation loop (only stops if a philo dies)
-//priorities . last time eaten.
+//priorities . last time ate.

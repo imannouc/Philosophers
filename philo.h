@@ -17,7 +17,8 @@ typedef struct s_philo
 {
 	pthread_t 	philo;
 	int			philo_id;
-	long int	last_time_eaten;
+	int			times_ate;
+	long int	last_time_ate;
 	struct s_options *op;
 }	t_philo;
 
@@ -43,12 +44,14 @@ int		start_simulation(t_options options);
 void	*routine(void *data);
 
 long int	current_time();
+void	print(t_philo *p,char *s);
 
 int		take_forks(t_philo *philo);
-int		eat(t_philo *philo);
-void	print(int id, char *s, t_philo *p);
 
+int		eat(t_philo *philo);
 int		go_sleep(t_philo *philo);
 int		think(t_philo *philo);
+
+int		die(t_philo *philo);
 
 #endif
