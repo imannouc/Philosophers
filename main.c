@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 11:06:56 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/04 12:06:26 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/17 16:12:53 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int		start_simulation(t_options options)
 
 	i = 0;
 	options.fork = forks;
+	pthread_mutex_init(&(options.log),NULL);
 	while (i < options.n_philo)
 	{
 		if (pthread_mutex_init(&forks[i].fork,NULL))
 			return (1);
-		forks[i].status = 0;
+		forks[i].status = 1;
 		philo[i].philo_id = i + 1;
 		philo[i].times_ate = 0;
 		philo[i].op = &options;
@@ -45,16 +46,15 @@ int		start_simulation(t_options options)
 	{
 		if (pthread_create(&philo[i].philo,NULL,&routine,&philo[i]))
 			return (1);
+		philo[i].start = current_time();
 		usleep(100);
 		i++;
 	}
-	i = 0;
-	while (i < options.n_philo)
-	{
-		if (pthread_join(philo[i].philo,NULL))
+	i = -1;
+	while (++i < options.n_philo)
+		if (pthread_detach(philo[i].philo))
 			return (1);
-		i++;
-	}
+	pthread_mutex_lock(&(options.wait));
 	return (0);
 }
 
@@ -64,8 +64,11 @@ int main(int ac, char **av)
 
 	if ((ac == 5 || ac == 6) && !store_options(ac,av,&arguments))
 	{
-		// print_options(&arguments);
+		pthread_mutex_init(&(arguments.wait),NULL);
+		pthread_mutex_lock(&(arguments.wait));
 		start_simulation(arguments);
+		pthread_mutex_unlock(&(arguments.wait));
+		pthread_mutex_destroy(&(arguments.wait));
 	}
 	else
 		printf("Provide correct arguments.");

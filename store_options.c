@@ -7,7 +7,10 @@ static void    init_args(t_options *arguments)
 	arguments->t_eat = -1;
 	arguments->t_sleep = -1;
 	arguments->n_times_eat = -1;
-	arguments->zero_time = current_time();
+	arguments->death = 0;
+	arguments->diff = 0;
+	arguments->zero_time = 0;
+	arguments->everyone_ate = 0;
 }
 
 static int check_args(int ac, t_options *args)

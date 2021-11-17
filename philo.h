@@ -10,7 +10,7 @@
 typedef struct s_fork
 {
 	pthread_mutex_t fork;
-	int	status;
+	int				status;
 }	t_fork;
 
 typedef struct s_philo
@@ -19,6 +19,7 @@ typedef struct s_philo
 	int			philo_id;
 	int			times_ate;
 	long int	last_time_ate;
+	long int 	start;
 	struct s_options *op;
 }	t_philo;
 
@@ -30,7 +31,11 @@ typedef struct s_options
 	int 		t_sleep;
 	int 		n_times_eat;
 	long int	zero_time;
+	int			death;
+	long int	diff;
+	int			everyone_ate;
 	pthread_mutex_t log;
+	pthread_mutex_t wait;
 	t_philo		*philo;
 	t_fork		*fork;
 }	t_options;
@@ -51,7 +56,5 @@ int		take_forks(t_philo *philo);
 int		eat(t_philo *philo);
 int		go_sleep(t_philo *philo);
 int		think(t_philo *philo);
-
-int		die(t_philo *philo);
 
 #endif
