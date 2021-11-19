@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 20:52:26 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/19 01:44:59 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/19 02:03:17 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void	exit_free(t_options *args)
 int		start(t_options *args)
 {
 	int i;
+	int n;
 
+	n = 0;
 	i = 0;
 	init(args);
 	args->pid = (int *)malloc(sizeof(int) * args->n_philo);
@@ -53,9 +55,18 @@ int		start(t_options *args)
 			routines(args);
 		i++;
 	}
+	i = -1;
+	if (args->n_times_eat != -1)
+	{
+		while (++i < args->n_philo)
+		{
+			waitpid(args->pid[i],&n,0);
+		}
+		sem_post(args->wait);
+	}
 	sem_wait(args->wait);
 	while (i--)
-		kill(args->pid[i],SIGKILL);
+		kill(args->pid[i],SIGINT);
 	sem_post(args->wait);
 	exit_free(args);
 	return (0);

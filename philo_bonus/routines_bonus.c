@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 19:46:23 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/18 23:45:54 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/19 02:01:57 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 int	eat_sleep_think(t_options *arg)
 {
+	if (arg->n_times_eat == 0)
+		return (-1);
 	sem_wait(arg->sem);
 	print(arg, "has taken a fork");
 	sem_wait(arg->sem);
 	print(arg, "has taken a fork");
 	arg->last_time_ate = current_time();
 	print(arg, "is eating");
+	arg->n_times_eat--;
 	usleep(arg->t_eat * 1000);
 	sem_post(arg->sem);
 	sem_post(arg->sem);
@@ -73,6 +76,12 @@ int		routines(t_options *arg)
 	pthread_create(&death, NULL, &check_death, arg);
 	pthread_detach(death);
 	while (!(arg->death))
-		eat_sleep_think(arg);
+	{
+		if (eat_sleep_think(arg) == -1)
+		{
+			break;
+		}
+		
+	}
 	return (0);
 }
