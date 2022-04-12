@@ -1,8 +1,0 @@
-took input.
-Now i should create a thread for each philosopher. (array of threads)
-as well as an array of forks that hold the status for each index (0,1 -> free,used)
-And Mutexes to protect each fork.
-
-int forks => mutex ;
-Start a simulation loop (only stops if a philo dies)
-//priorities . last time ate.
