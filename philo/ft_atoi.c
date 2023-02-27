@@ -6,9 +6,11 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:33:48 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/17 19:29:41 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/19 05:19:39 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "philo.h"
 
 static void	n_sign(char c, int *i, int *sign)
 {

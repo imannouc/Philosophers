@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:41:44 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/18 23:48:34 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/19 05:05:02 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_options
 	sem_t				*log;
 	sem_t				*wait;
 	sem_t				*sem;
-	int 				*pid;
+	int					*pid;
 	int					philo_id;
 	int					times_ate;
 	long int			last_time_ate;

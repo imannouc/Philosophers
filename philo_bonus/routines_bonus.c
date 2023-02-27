@@ -6,10 +6,9 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 19:46:23 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/19 02:01:57 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/19 05:13:30 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo_bonus.h"
 
@@ -64,7 +63,7 @@ void	*check_death(void *data)
 	return (NULL);
 }
 
-int		routines(t_options *arg)
+int	routines(t_options *arg)
 {
 	pthread_t	death;
 	int			eat;
@@ -78,10 +77,7 @@ int		routines(t_options *arg)
 	while (!(arg->death))
 	{
 		if (eat_sleep_think(arg) == -1)
-		{
-			break;
-		}
-		
+			break ;
 	}
 	return (0);
 }

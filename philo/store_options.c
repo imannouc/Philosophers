@@ -6,7 +6,7 @@
 /*   By: imannouc <imannouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:27:34 by imannouc          #+#    #+#             */
-/*   Updated: 2021/11/17 19:40:04 by imannouc         ###   ########.fr       */
+/*   Updated: 2021/11/18 20:39:21 by imannouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static void	init_args(t_options *arguments)
 
 static int	check_args(int ac, t_options *args)
 {
-	if (args->n_philo < 0 || args->t_die < 0
-		|| args->t_eat < 0 || args->t_sleep < 0)
+	if (args->n_philo <= 0 || args->t_die < 60
+		|| args->t_eat < 60 || args->t_sleep < 60)
 		return (1);
-	if ((ac == 6) && args->n_times_eat < 0)
+	if ((ac == 6) && args->n_times_eat <= 0)
 		return (1);
 	return (0);
 }

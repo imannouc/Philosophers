@@ -15,10 +15,16 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(INCLUDE)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+$(NAME): $(OBJ) 
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
-fclean:
+%.o: %.c $(INCLUDE)
+	gcc $(FLAGS) -c $<
+
+clean:
+	rm -rf $(OBJ)
+
+fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all

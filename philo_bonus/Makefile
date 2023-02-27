@@ -1,4 +1,4 @@
-NAME = philo
+NAME = philo_bonus
 
 CC = gcc
 
@@ -15,13 +15,15 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(INCLUDE)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+$(NAME): $(OBJ) 
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
+%.o: %.c $(INCLUDE)
+	$(CC) $(FLAGS) -c $<
 clean:
 	rm -rf $(OBJ)
 
-fclean:
+fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
